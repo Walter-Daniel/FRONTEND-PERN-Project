@@ -1,42 +1,13 @@
-import { ActionFunctionArgs, Form, Link, redirect, useActionData } from 'react-router-dom';
-import { ErrorMessage } from '../components';
-import { addProduct } from '../services/ProductServise';
+import { Form } from 'react-router-dom';
 
-export async function action({request}:ActionFunctionArgs){
-
-  const data = Object.fromEntries(await request.formData())
-  let error = '';
-  if(Object.values(data).includes('')) {
-    error = 'Todos los campos son obligatorios'
-  }
-  if(error.length){
-    return error
-  }
-
-  await addProduct(data)
-
-  return redirect('/')
+interface FormProps  {
+    method: string;
+    title: string;
 }
 
-export const NewProducts = () => {
-
-  const error = useActionData() as string;
-
+export const FormProducts = () => {
   return (
-    <>
-
-      <div className='flex justify-between'>
-          <h2 className='text-4xl font-black text-slate-500'>Registrar Producto</h2>
-          <Link 
-              to="/" 
-              className='rounded-md bg-indigo-600 p-3 text-sm font-bold text-white shadow-sm hover:bg-indigo-500'>
-            Regresar a Productos
-          </Link>
-        </div>
-        {
-          error && <ErrorMessage>{error}</ErrorMessage>
-        }
-        <Form
+    <Form
             className="mt-10" 
             method='POST'
 
@@ -74,7 +45,5 @@ export const NewProducts = () => {
               value="Registrar Producto"
             />
         </Form>
-    
-    </>
   )
 }
