@@ -1,7 +1,9 @@
-import { ActionFunctionArgs, Form, Link, useActionData } from 'react-router-dom';
+import { ActionFunctionArgs, Form, Link, redirect, useActionData } from 'react-router-dom';
 import { ErrorMessage } from '../components';
+import { addProduct } from '../services/ProductServise';
 
 export async function action({request}:ActionFunctionArgs){
+
   const data = Object.fromEntries(await request.formData())
   let error = '';
   if(Object.values(data).includes('')) {
@@ -10,7 +12,10 @@ export async function action({request}:ActionFunctionArgs){
   if(error.length){
     return error
   }
-  return {}
+
+  await addProduct(data)
+
+  return redirect('/')
 }
 
 export const NewProducts = () => {
