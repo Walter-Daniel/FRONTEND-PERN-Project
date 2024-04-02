@@ -47,7 +47,6 @@ export const NewProducts = () => {
               value="Registrar Producto"
             />
         </Form>
-    
     </>
   )
 }

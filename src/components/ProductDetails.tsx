@@ -1,13 +1,23 @@
-import { useNavigate } from 'react-router-dom'
+import { ActionFunctionArgs, Form, redirect, useFetcher, useNavigate } from 'react-router-dom'
 import { Product } from '../types/typesValibot'
 import { formatCurrency } from '../utilities'
+import { deleteProduct } from '../services/ProductServise'
 
 
 type ProductsItemProps = {
     product: Product
 }
+
+export async function action({params}: ActionFunctionArgs) {
+    if(params.id !== undefined ){
+        await deleteProduct(+params.id)
+        return redirect('/');
+    } 
+}
+
 export const ProductDetails = ({product}:ProductsItemProps) => {
 
+    const fetcher = useFetcher();
     const isAvailable = product.availability;
     const navigate = useNavigate();
 
@@ -22,7 +32,16 @@ export const ProductDetails = ({product}:ProductsItemProps) => {
                 {formatCurrency(product.price)}
             </td>
             <td className="p-3 text-lg text-gray-800">
-                {isAvailable ? 'Disponible' : 'No Disponible'}
+                <fetcher.Form method='POST'>
+                    <button
+                        type='submit'
+                        name='id'
+                        value={product.id}
+                        className={`${isAvailable ? 'text-black' : 'text-red-600' }  rounded-lg text-xs uppercase p-2 font-bold w-full border border-b-slate-100 hover: cursor-pointer `}
+                    >
+                        {isAvailable ? 'Disponible' : 'No Disponible'}
+                    </button>
+                </fetcher.Form>
             </td>
             <td className="p-3 text-lg text-gray-800 ">
                 <div className='flex gap-2 items-center'>
@@ -30,6 +49,24 @@ export const ProductDetails = ({product}:ProductsItemProps) => {
                         onClick={() => navigate(`/productos/${product.id}/editar`)}
                         className='bg-green-500 text-white rounded-lg w-full p-2 uppercase font-bold text-xs text-center'
                     >Editar</button>
+
+                    <Form
+                        className='w-full'
+                        method='POST'
+                        action={`productos/${product.id}/eliminar`}
+                        onSubmit={(e) => {
+                            if( !confirm('¿Eliminar?') ) {
+                                e.preventDefault()
+                            }
+                        }}
+                        >
+                         <input 
+                            type='submit'
+                            value='Eliminar'
+                            className='bg-red-600 text-white rounded-lg w-full p-2 uppercase font-bold text-xs text-center'
+                         />   
+                    </Form>
+
                 </div>
             </td>
         </tr> 

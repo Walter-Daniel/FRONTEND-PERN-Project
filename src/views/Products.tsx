@@ -1,11 +1,17 @@
-import { Link, useLoaderData } from 'react-router-dom';
-import { getProduct } from '../services/ProductServise';
+import { ActionFunctionArgs, Link, useLoaderData } from 'react-router-dom';
+import { getProduct, updateProductAvailability } from '../services/ProductServise';
 import { ProductDetails } from '../components';
 import { Product } from '../types/typesValibot';
 
 export const loader = async() => {
   const products = await getProduct();
   return products
+}
+
+export const action = async({request}:ActionFunctionArgs) => {
+  const data = Object.fromEntries( await request.formData() )
+  await updateProductAvailability(+data.id)
+  return {}
 }
 
 export const Products = () => {
