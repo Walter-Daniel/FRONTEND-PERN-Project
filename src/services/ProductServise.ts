@@ -1,33 +1,13 @@
-import { safeParse } from 'valibot';
+import { coerce, number, parse, safeParse } from 'valibot';
 import axios from 'axios';
 import { DraftProductSchema, ProductsSchema, Product, ProductSchema } from '../types/typesValibot';
+import { toBoolean } from '../utilities';
 
 
 type ProductData = {
     [k: string]: FormDataEntryValue;
 }
 
-export const updateProduct = async(data:ProductData, id: Product['id']) => {
-    try {
-        const result = safeParse(DraftProductSchema, {
-            name: data.name,
-            price: +data.price
-        })
-
-        if(result.success){
-            const url = `${import.meta.env.VITE_API_URL}/api/products`;
-            await axios.post(url, {
-                name: result.output.name,
-                price: result.output.price
-            })
-        }else{
-            throw new Error('Datos no válidos')
-        }
-
-    } catch (error) {
-        console.log(error)
-    }
-}
 export const addProduct = async(data:ProductData) => {
     try {
         const result = safeParse(DraftProductSchema, {
@@ -78,4 +58,46 @@ export const getProductById = async(id: Product['id']) => {
     } catch (error) {
         console.log(error)
     }
-} 
+}
+
+export const updateProduct = async(data:ProductData, id: Product['id']) => {
+    const NumberSchema = coerce(number(), Number)
+    try {
+        const result = safeParse(ProductSchema, {
+            id,
+            name: data.name,
+            price: parse(NumberSchema, data.price),
+            availability: toBoolean(data.availability.toString())
+        })
+
+        if(result.success){
+          const url = `${import.meta.env.VITE_API_URL}/api/products/${id}` 
+          await axios.put(url, result.output) 
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const updateProductAvailability = async(id: Product['id']) => {
+    
+    try {
+        const url = `${import.meta.env.VITE_API_URL}/api/products/${id}` 
+        await axios.patch(url) 
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
+
+export const deleteProduct = async(id: Product['id']) => {
+
+    try {
+        const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`
+        await axios.delete(url)
+    } catch (error) {
+        console.log(error)
+    }
+
+}
