@@ -1,6 +1,7 @@
-import { safeParse } from 'valibot';
+import { coerce, number, parse, safeParse } from 'valibot';
 import axios from 'axios';
 import { DraftProductSchema, ProductsSchema, Product, ProductSchema } from '../types/typesValibot';
+import { toBoolean } from '../utilities';
 
 
 type ProductData = {
@@ -8,20 +9,18 @@ type ProductData = {
 }
 
 export const updateProduct = async(data:ProductData, id: Product['id']) => {
+    const NumberSchema = coerce(number(), Number)
     try {
-        const result = safeParse(DraftProductSchema, {
+        const result = safeParse(ProductSchema, {
+            id,
             name: data.name,
-            price: +data.price
+            price: parse(NumberSchema, data.price),
+            availability: toBoolean(data.availability.toString())
         })
 
         if(result.success){
-            const url = `${import.meta.env.VITE_API_URL}/api/products`;
-            await axios.post(url, {
-                name: result.output.name,
-                price: result.output.price
-            })
-        }else{
-            throw new Error('Datos no válidos')
+          const url = `${import.meta.env.VITE_API_URL}/api/products/${id}` 
+          await axios.put(url, result.output) 
         }
 
     } catch (error) {
