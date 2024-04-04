@@ -1,30 +1,41 @@
-# React + TypeScript + Vite
+# Cliente: Frontend con React y Vite 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+¡Bienvenido al lado del cliente del proyecto! Esta aplicación frontend está construida utilizando React y Vite, ofreciendo un entorno de desarrollo rápido y moderno para crear interfaces de usuario dinámicas. Aquí tienes una visión general de lo que ofrece este cliente:
 
-Currently, two official plugins are available:
+## Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+La aplicación del lado del cliente es responsable de renderizar la interfaz de usuario e interactuar con la API del backend. Las características clave incluyen:
 
-## Expanding the ESLint configuration
+- **Componentes de React**: Utiliza React para construir componentes de interfaz de usuario reutilizables y componibles.
+- **Servidor de Desarrollo Vite**: Emplea Vite para un desarrollo rápido y eficiente con reemplazo de módulos en caliente.
+- **Enrutamiento**: Implementa enrutamiento del lado del cliente utilizando React Router para la navegación entre diferentes vistas.
+- **Peticiones HTTP**: Realiza peticiones asíncronas a la API del backend utilizando Axios para la manipulación y recuperación de datos.
+- **Validación de Formularios**: Incorpora Valibot para la validación de formularios del lado del cliente para garantizar la integridad de los datos.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tecnologías Utilizadas
 
-- Configure the top-level `parserOptions` property like this:
+La aplicación del lado del cliente aprovecha diversas tecnologías para ofrecer una experiencia de usuario perfecta:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **React**: Una biblioteca de JavaScript para construir interfaces de usuario.
+- **Vite**: Una herramienta de construcción que proporciona un servidor de desarrollo rápido y una configuración de compilación optimizada.
+- **Axios**: Un cliente HTTP basado en promesas para el navegador y Node.js.
+- **React Router DOM**: Una biblioteca de enrutamiento para aplicaciones React.
+- **Valibot**: Una biblioteca de validación de formularios ligera para React.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Para Empezar
+
+Para configurar y ejecutar la aplicación del lado del cliente localmente, sigue estos pasos:
+
+1. Clona este repositorio en tu máquina local.
+2. Navega hasta el directorio `client`.
+3. Instala las dependencias utilizando `npm install`.
+4. Inicia el servidor de desarrollo utilizando `npm run dev`.
+5. Accede a la aplicación en tu navegador web.
+
+## Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo de Vite para desarrollo local.
+- `npm run build`: Construye el paquete listo para producción para implementación.
+- `npm run lint`: Limpia los archivos del proyecto utilizando ESLint con soporte TypeScript.
+- `npm run preview`: Previsualiza la compilación de producción localmente.
+
